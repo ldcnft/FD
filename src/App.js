@@ -157,8 +157,8 @@ function App() {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 6) {
-      newMintAmount = 6;
+    if (newMintAmount > 1) {
+      newMintAmount = 1;
     }
     setMintAmount(newMintAmount);
   };
@@ -353,6 +353,19 @@ function App() {
                         +
                       </StyledRoundButton>
                     </s.Container>
+
+
+<s.SpacerMedium />
+                        
+<s.Container ai={"center"} jc={"center"} fd={"row"}>
+<s.TextDescription
+                  style={{ textAlign: "center", color: "var(--accent-text)" }}
+                >
+                  1 Free Max Per WL
+                </s.TextDescription>
+                    </s.Container>
+
+
                     <s.SpacerSmall />
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
                       <StyledButton
