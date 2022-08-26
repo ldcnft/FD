@@ -123,7 +123,7 @@ function App() {
     let totalGasLimit = String(gasLimit * mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-    var whitelisted = ["0x7e2153AaA933FDb014595665A94c5A4E96C61Df7", "0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf"];
+    var whitelisted = ["0x5e3810196Ab6985af2602Ef38535E757d47C4042", "0x7e2153AaA933FDb014595665A94c5A4E96C61Df7", "0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf"];
 
     for (var iaddress = 0; iaddress < whitelisted.length; iaddress++){
       
