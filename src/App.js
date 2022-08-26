@@ -116,13 +116,20 @@ function App() {
   });
 
   const claimNFTs = () => {
+
     let cost = CONFIG.WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
     let totalGasLimit = String(gasLimit * mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+    var whitelisted = ["0x7e2153AaA933FDb014595665A94c5A4E96C61Df7", "0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf"];
+
+    for (var iaddress = 0; iaddress < whitelisted.length; iaddress++){
+      
+    if(blockchain.account = whitelisted[iaddress]) {
+   
+    setFeedback(`Minting your ${CONFIG.NFT_NAME} you must be whitelisted or it'll fail`);
     setClaimingNft(true);
     blockchain.smartContract.methods
       .mint(mintAmount)
@@ -131,19 +138,25 @@ function App() {
         from: blockchain.account,
         value: totalCostWei,
       })
-      .once("error", (err) => {
-        console.log(err);
-        setFeedback("Sorry, something went wrong please try again later.");
-        setClaimingNft(false);
-      })
+
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
-          `Congratulation, the ${CONFIG.NFT_NAME} becomes yours! visit Opensea.io to view it.`
+          `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
-      });
+      });} 
+
+      else {
+        setFeedback("Sorry, This addres is not Whitelisted .");
+        setClaimingNft(false);
+    } 
+
+
+  };
+
+
   };
 
   const decrementMintAmount = () => {
