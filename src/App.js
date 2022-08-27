@@ -116,24 +116,28 @@ function App() {
   });
 
   const claimNFTs = () => {
-
     let cost = CONFIG.WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
     let totalGasLimit = String(gasLimit * mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-   
-    setFeedback(`Minting your ${CONFIG.NFT_NAME} you must be whitelisted or it'll fail`);
+    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
+        gasLimit: String(totalGasLimit),
+        gasPrice: 40000000000,
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
         value: totalCostWei,
       })
-
+      .once("error", (err) => {
+        console.log(err);
+        setFeedback("Sorry, something went wrong please try again later.");
+        setClaimingNft(false);
+      })
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
@@ -142,8 +146,6 @@ function App() {
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
       });
-
-
   };
 
   const decrementMintAmount = () => {
@@ -156,9 +158,31 @@ function App() {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 1) {
-      newMintAmount = 1;
+    if (newMintAmount > 66) {
+      newMintAmount = 66;
     }
+    setMintAmount(newMintAmount);
+  };
+
+    const tenMintAmount = () => {
+    let newMintAmount = 10;
+
+    setMintAmount(newMintAmount);
+  };
+    const twentyMintAmount = () => {
+    let newMintAmount = 20;
+
+    setMintAmount(newMintAmount);
+  };
+  
+    const thirtyMintAmount = () => {
+    let newMintAmount = 30;
+    setMintAmount(newMintAmount);
+  };
+  
+      const maxMintAmount = () => {
+    let newMintAmount = 66;
+
     setMintAmount(newMintAmount);
   };
 
@@ -351,18 +375,62 @@ function App() {
                       </StyledRoundButton>
                     </s.Container>
 
-
 <s.SpacerMedium />
                         
 <s.Container ai={"center"} jc={"center"} fd={"row"}>
-<s.TextDescription
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  1 Free Max Per WL
-                </s.TextDescription>
+
+  
+  
+  
+                        <StyledRoundButton
+                        disabled={claimingNft ? 1 : 0}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          tenMintAmount();
+                          getData();
+                        }}
+                      >
+                        10
+                      </StyledRoundButton>
+<s.SpacerMedium />
+                      <StyledRoundButton
+                        disabled={claimingNft ? 1 : 0}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          twentyMintAmount();
+                          getData();
+                        }}
+                      >
+                        20
+                      </StyledRoundButton>
+<s.SpacerMedium />
+                      <StyledRoundButton
+                        disabled={claimingNft ? 1 : 0}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          thirtyMintAmount();
+                          getData();
+                        }}
+                      >
+                        30
+                      </StyledRoundButton>
+<s.SpacerMedium />
+                      <StyledRoundButton
+                        disabled={claimingNft ? 1 : 0}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          maxMintAmount();
+                          getData();
+                        }}
+                      >
+                        Max
+                      </StyledRoundButton>
+  
+  
+  
+  
+  
                     </s.Container>
-
-
                     <s.SpacerSmall />
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
                       <StyledButton
